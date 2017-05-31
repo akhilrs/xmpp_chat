@@ -1,0 +1,22 @@
+version: '2'
+services:
+  xmpp:
+    container_name: xmpp
+    restart: always
+    image: prosody/prosody:latest
+    command: prosody
+    volumes:
+        - ./prosody/configuration:/etc/prosody
+        - ./logs:/var/log/prosody
+        - ./prosody/modules:/usr/lib/prosody-modules
+    ports:
+        - "5280:5280" # bosh / websocket
+        - "5281:5281" # Secure bosh / websocket
+        - "5222:5222" # c2s
+        - "5269:5369" # s2s
+        - "5347:5347" # xmpp component
+        - "8001:80"   # http
+    environment:
+        LOCAL: "akhilrs"
+        DOMAIN: "localhost"
+        PASSWORD: "akhilrs"
