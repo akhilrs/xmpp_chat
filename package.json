@@ -1,0 +1,25 @@
+{
+  "name": "xmpp_chat",
+  "version": "1.0.0",
+  "description": "XMPP Chat integration with xmpp and websockets",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "jshint .",
+    "validate": "npm ls",
+    "server": "python -m SimpleHTTPServer"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akhilrs/xmpp_chat.git"
+  },
+  "author": "mail@akhil.rs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/akhilrs/xmpp_chat/issues"
+  },
+  "homepage": "https://github.com/akhilrs/xmpp_chat#readme",
+  "dependencies": {
+    "stanza.io": "^8.4.0"
+  }
+}

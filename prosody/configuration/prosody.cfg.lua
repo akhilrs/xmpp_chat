@@ -20,7 +20,7 @@
 -- for the server. Note that you must create the accounts separately
 -- (see http://prosody.im/doc/creating_accounts for info)
 -- Example: admins = { "user1@example.com", "user2@example.net" }
-admins = { }
+admins = { "akhilrs.dev@gmail.com"}
 
 -- Enable use of libevent for better performance under high load
 -- For more information see: http://prosody.im/doc/libevent
@@ -59,7 +59,7 @@ modules_enabled = {
 		--"admin_telnet"; -- Opens telnet console interface on localhost port 5582
 
 	-- HTTP modules
-		--"bosh"; -- Enable BOSH clients, aka "Jabber over HTTP"
+		"bosh"; -- Enable BOSH clients, aka "Jabber over HTTP"
 		--"http_files"; -- Serve static files from a directory over HTTP
 
 	-- Other specific functionality
@@ -70,6 +70,8 @@ modules_enabled = {
 		--"watchregistrations"; -- Alert admins of registrations
 		--"motd"; -- Send a message to users when they log in
 		--"legacyauth"; -- Legacy authentication. Only used by some old clients and bots.
+	-- WebSocket
+		"websocket";
 };
 
 -- These modules are auto-loaded, but should you want
@@ -83,6 +85,7 @@ modules_disabled = {
 -- Disable account creation by default, for security
 -- For more information see http://prosody.im/doc/creating_accounts
 allow_registration = true;
+min_seconds_between_registrations = 21600
 
 -- These are the SSL/TLS-related settings. If you don't want
 -- to use SSL/TLS, you may comment or remove this
@@ -91,6 +94,10 @@ ssl = {
 	certificate = "certs/localhost.crt";
 }
 
+
+-- Websocket Configuration
+cross_domain_websocket = { "http://jabber.org", "http://prosody.im", "http://localhost" };
+consider_websocket_secure = true;
 -- Force clients to use encrypted connections? This option will
 -- prevent clients from authenticating unless they are using encryption.
 
@@ -122,7 +129,7 @@ s2s_secure_auth = false
 -- server please see http://prosody.im/doc/modules/mod_auth_internal_hashed
 -- for information about using the hashed backend.
 
-authentication = "internal_plain"
+authentication = "internal_hashed"
 
 -- Select the storage backend to use. By default Prosody uses flat files
 -- in its configured data directory, but it also supports more backends
@@ -169,7 +176,9 @@ VirtualHost "example.com"
 -- For more information on components, see http://prosody.im/doc/components
 
 ---Set up a MUC (multi-user chat) room server on conference.example.com:
---Component "conference.example.com" "muc"
+Component "conference.localhost.com" "muc"
+	restrict_room_creation = "admin"
+	--modules_enabled = {}
 
 -- Set up a SOCKS5 bytestream proxy for server-proxied file transfers:
 --Component "proxy.example.com" "proxy65"
